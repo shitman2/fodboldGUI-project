@@ -1,5 +1,6 @@
 # importing tkinter module
 from tkinter import *
+import tkinter as tk
 from PIL import ImageTk,Image #image stuff - install package: Pillow
 
 #gwaa
@@ -10,9 +11,15 @@ class listWindowClass:
         self.listWindow.title("List Window")
         self.listWindow.geometry("500x500")
 
-        Label(self.listWindow, text="Liste over indbetalinger.. eller.. noget der ligner en cylinder").pack()
+        Label(self.listWindow, text="Liste over indbetalinger").pack()
 
-        img = ImageTk.PhotoImage(Image.open("assets/img/cyl.png"))
-        panel = Label(self.listWindow, image=img)
-        panel.image = img
-        panel.pack(side="bottom", fill="both", expand="yes")
+        listbox = tk.Listbox(self.listWindow, width=40, height=10)
+        for item in self.master.fodboldtur.items():
+            listbox.insert(tk.END, item)
+        listbox.pack()
+        def printliste():
+            for item in self.master.fodboldtur.items():
+                print(item)
+            print("Er beløbet betalt?")
+
+        printliste()
