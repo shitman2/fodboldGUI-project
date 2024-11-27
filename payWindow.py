@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import messagebox
 
+
 class payWindowClass:
 
     def __init__(self, master):
@@ -25,6 +26,9 @@ class payWindowClass:
         self.button = Button(self.payWindow, text="betal", command= self.addMoney)
         self.button.pack()
 
+
+
+
     def addMoney(self):
         try:
             amount = abs(int(self.money.get())) #HUSK AT VALIDERE INPUT!, kun positive heltal!
@@ -38,3 +42,10 @@ class payWindowClass:
         self.master.progress['value'] = self.master.total / self.master.target * 100
         ##TODO: TELL MAIN WINDOW TO PICKLE THE DICTIONARY
         self.master.gemFilen()
+
+        def selectPerson(self):
+            person = str(self.name.get())
+            print(person)
+            # self.master.fodboldtur[person]
+            # print(person + ": ")
+            # print((self.master.fodboldtur[person]))

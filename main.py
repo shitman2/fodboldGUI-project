@@ -14,7 +14,7 @@ class mainWindow:
 
 
         self.total = 0
-        self.target = 1
+        self.target = 4500
 
         # creating tkinter window
         self.root = Tk()
