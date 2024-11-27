@@ -1,6 +1,5 @@
 from tkinter import *
 import tkinter as tk
-from PIL import ImageTk, Image  # Image functionality
 
 class listWindowClass:
     def __init__(self, master):
@@ -12,18 +11,18 @@ class listWindowClass:
         Label(self.listWindow, text="Liste over indbetalinger").pack()
 
         listbox = tk.Listbox(self.listWindow, width=40, height=10)
-        for item in self.master.fodboldtur.items():
-            listbox.insert(tk.END, item)
+        for name, amount in self.master.fodboldtur.items():
+            listbox.insert(tk.END, f"{name}: {amount} kr")
         listbox.pack()
 
         def printliste():
-            for item in self.master.fodboldtur.items():
-                print(item)
+            for name, amount in self.master.fodboldtur.items():
+                print(f"{name}: {amount} kr")
             print("Er beløbet betalt?")
 
         printliste()
 
-        # ADD BACK BUTTON
+        # Back Button
         self.backButton = Button(self.listWindow, text="Tilbage", command=self.goBack)
         self.backButton.pack(pady=10)
 

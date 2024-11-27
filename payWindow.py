@@ -7,7 +7,7 @@ class payWindowClass:
         self.master = master  # reference til main window objektet
         self.payWindow = Toplevel(self.master.root)
         self.payWindow.title("Pay Window")
-        self.payWindow.geometry("300x250")  # Increased size to fit new elements
+        self.payWindow.geometry("300x250")
 
         Label(self.payWindow, text="Beløb").pack()
 
@@ -20,8 +20,7 @@ class payWindowClass:
         self.name = Entry(self.payWindow)
         self.name.pack()
 
-        # Radio buttons for selecting payment or withdrawal
-        self.transaction_type = StringVar(value="pay")  # Default to "pay"
+        self.transaction_type = StringVar(value="pay")
         self.pay_radio = Radiobutton(self.payWindow, text="Betal", variable=self.transaction_type, value="pay")
         self.pay_radio.pack()
         self.withdraw_radio = Radiobutton(self.payWindow, text="Træk penge", variable=self.transaction_type, value="withdraw")
@@ -30,13 +29,12 @@ class payWindowClass:
         self.button = Button(self.payWindow, text="Bekræft", command=self.processMoney)
         self.button.pack(pady=10)
 
-        # Back button
         self.backButton = Button(self.payWindow, text="Tilbage", command=self.goBack)
         self.backButton.pack(pady=10)
 
     def processMoney(self):
         try:
-            amount = abs(int(self.money.get()))  # Validate input for positive integers only
+            amount = abs(int(self.money.get()))
         except:
             messagebox.showerror(parent=self.payWindow, title="Beløb fejl!", message="Prøv igen.\nKun hele tal!")
             return
@@ -46,16 +44,22 @@ class payWindowClass:
             messagebox.showerror(parent=self.payWindow, title="Navn fejl!", message="Navn må ikke være tomt.")
             return
 
-        if self.transaction_type.get() == "pay":
-            self.master.total += amount
-            print(f"{amount} kr. betalt af {name}.")
-        else:  # withdraw
-            self.master.total -= amount
-            print(f"{amount} kr. trukket fra {name}.")
+        if name not in self.master.fodboldtur:
+            self.master.fodboldtur[name] = 0  # Initialize if the name doesn't exist
 
+        if self.transaction_type.get() == "pay":
+            self.master.fodboldtur[name] += amount
+        else:
+            self.master.fodboldtur[name] -= amount
+
+        self.master.total = sum(self.master.fodboldtur.values())
         self.master.progressLabelText.set(f"Indsamlet: {self.master.total} af {self.master.target} kroner:")
         self.master.progress['value'] = self.master.total / self.master.target * 100
-        self.master.gemFilen()
+
+        self.master.gemFilen()  # Save the updated data
+        print(f"Opdateret: {self.master.fodboldtur}")
+        messagebox.showinfo(parent=self.payWindow, title="Success", message=f"Beløb opdateret for {name}.")
+        self.goBack()
 
     def goBack(self):
         self.payWindow.destroy()
